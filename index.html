@@ -667,9 +667,15 @@
       </div>
 
       <!-- Updated Form -->
-      <form id="subscribe-form" class="newsletter-form">
-        <input type="email" name="email" id="email" required placeholder="Your Email Address" class="input-field">
-        <button type="submit" class="btn btn-secondary">Subscribe</button>
+      <form action="https://gmail.us17.list-manage.com/subscribe/post?u=f5ef85fd7e179c456c1bf90e1&amp;id=6dd10a7d1d" 
+      method="post" target="_blank">
+    
+    <input type="email" name="EMAIL" placeholder="Enter your email" required>
+    
+    <button type="submit">Subscribe</button>
+
+    <!-- Hidden field to prevent bot signups -->
+    <input type="text" name="b_f5ef85fd7e179c456c1bf90e1_6dd10a7d1d" tabindex="-1" style="position:absolute; left:-5000px;">
       </form>
 
       <!-- Response Message -->
@@ -678,47 +684,7 @@
   </div>
 </section>
 
-<!-- Add JavaScript for Mailchimp API Integration -->
-<script>
-  document.getElementById('subscribe-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    const apiKey = '58417410bee877d71cf481328f5b6b87-us17'; // Replace with your API key
-    const audienceId = '6dd10a7d1d'; // Replace with your audience ID
-    const serverPrefix = 'us17'; // e.g., 'us1' (check the URL when logged into Mailchimp)
-
-    const url = `https://${serverPrefix}.api.mailchimp.com/3.0/lists/${audienceId}/members`;
-
-    const data = {
-      email_address: email,
-      status: 'subscribed'
-    };
-
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `apikey ${apiKey}`
-      },
-      body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(result => {
-      if (result.status === 400 && result.title === 'Member Exists') {
-        document.getElementById('response-message').innerText = 'You are already subscribed!';
-      } else if (result.status === 'subscribed') {
-        document.getElementById('response-message').innerText = 'Thank you for subscribing!';
-      } else {
-        document.getElementById('response-message').innerText = 'Something went wrong. Please try again.';
-      }
-    })
-    .catch(error => {
-      document.getElementById('response-message').innerText = 'An error occurred. Please try again.';
-    });
-  });
-      </script>
  
-
 
 
 
