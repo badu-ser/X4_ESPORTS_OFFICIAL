@@ -656,35 +656,68 @@
           - #NEWSLETTER
         -->
 
-        <section class="newsletter">
-          <div class="container">
-
-            <div class="newsletter-card">
-
-              <div class="newsletter-content">
-                <figure class="newsletter-img">
-                  <img src="./assets/images/newsletter-img.png" alt="Newsletter image">
-                </figure>
-
-                <h2 class="h2 newsletter-title">Subscribe to our newsletter</h2>
-              </div>
-
-              <form action="mailto:x4.esports.official.1@gmail.com" class="newsletter-form">
-                <input type="email" name="email" required placeholder="Your Email Address" class="input-field">
-
-                <button type="submit" class="btn btn-secondary">Subscribe</button>
-              </form>
-
-            </div>
-
-          </div>
-        </section>
-
+<section class="newsletter">
+  <div class="container">
+    <div class="newsletter-card">
+      <div class="newsletter-content">
+        <figure class="newsletter-img">
+          <img src="./assets/images/newsletter-img.png" alt="Newsletter image">
+        </figure>
+        <h2 class="h2 newsletter-title">Subscribe to our newsletter</h2>
       </div>
 
-    </article>
-  </main>
+      <!-- Updated Form -->
+      <form id="subscribe-form" class="newsletter-form">
+        <input type="email" name="email" id="email" required placeholder="Your Email Address" class="input-field">
+        <button type="submit" class="btn btn-secondary">Subscribe</button>
+      </form>
 
+      <!-- Response Message -->
+      <p id="response-message" style="margin-top: 10px; color: green; font-weight: bold;"></p>
+    </div>
+  </div>
+</section>
+
+<!-- Add JavaScript for Mailchimp API Integration -->
+<script>
+  document.getElementById('subscribe-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const apiKey = 'YOUR_MAILCHIMP_API_KEY'; // Replace with your API key
+    const audienceId = 'YOUR_AUDIENCE_ID'; // Replace with your audience ID
+    const serverPrefix = 'YOUR_SERVER_PREFIX'; // e.g., 'us1' (check the URL when logged into Mailchimp)
+
+    const url = `https://${serverPrefix}.api.mailchimp.com/3.0/lists/${audienceId}/members`;
+
+    const data = {
+      email_address: email,
+      status: 'subscribed'
+    };
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `apikey ${apiKey}`
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+      if (result.status === 400 && result.title === 'Member Exists') {
+        document.getElementById('response-message').innerText = 'You are already subscribed!';
+      } else if (result.status === 'subscribed') {
+        document.getElementById('response-message').innerText = 'Thank you for subscribing!';
+      } else {
+        document.getElementById('response-message').innerText = 'Something went wrong. Please try again.';
+      }
+    })
+    .catch(error => {
+      document.getElementById('response-message').innerText = 'An error occurred. Please try again.';
+    });
+  });
+      </script>
+ 
 
 
 
