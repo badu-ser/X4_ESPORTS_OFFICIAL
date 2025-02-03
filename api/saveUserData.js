@@ -10,8 +10,8 @@ export default async function handler(req, res) {
 
         try {
             // Fetch existing data from JSONBin.io
-            const binId = 'YOUR_BIN_ID'; // Replace with your Bin ID
-            const apiKey = 'YOUR_API_KEY'; // Replace with your API Key
+            const binId = '67a13af5ad19ca34f8f95268'; // Replace with your Bin ID
+            const apiKey = '$2a$10$tVtd0.467eQ7VX0OK5HQauiCFf/4hWAJiBdvabbASy7HSSY19nQKC'; // Replace with your API Key
             const getResponse = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
                 headers: {
                     'X-Master-Key': apiKey,
