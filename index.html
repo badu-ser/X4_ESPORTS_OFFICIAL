@@ -668,18 +668,49 @@
 
       <!-- Updated Form -->
       <form action="https://gmail.us17.list-manage.com/subscribe/post?u=f5ef85fd7e179c456c1bf90e1&amp;id=6dd10a7d1d" 
-      method="post" class="newsletter-form" target="_blank">
+      method="post" class="newsletter-form" target="_blank" id="mc-form">
     
-    <input type="email" name="EMAIL" required placeholder="Enter your email" class="input-field">
+    <input type="email" name="EMAIL" required placeholder="Enter your email" class="input-field" id="mc-email">
     
     <button type="submit" class="btn btn-secondary">Subscribe</button>
 
     <!-- Hidden field to prevent bot signups -->
     <input type="text" name="b_f5ef85fd7e179c456c1bf90e1_6dd10a7d1d" tabindex="-1" style="position:absolute; left:-5000px;">
+      !-- Response Message -->
+      <p id="mc-response" style="margin-top: 10px; color: green; font-weight: bold;"></p>
       </form>
 
       <!-- Response Message -->
-      <p id="response-message" style="margin-top: 10px; color: green; font-weight: bold;"></p>
+      <script>
+document.getElementById("mc-form").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent form submission
+
+    var email = document.getElementById("mc-email").value;
+    var responseMsg = document.getElementById("mc-response");
+
+    // Mailchimp Form Data
+    var formData = new FormData();
+    formData.append("EMAIL", email);
+    formData.append("b_f5ef85fd7e179c456c1bf90e1_6dd10a7d1d", ""); // Bot prevention field
+
+    fetch("https://gmail.us17.list-manage.com/subscribe/post-json?u=f5ef85fd7e179c456c1bf90e1&id=6dd10a7d1d&c=?", {
+        method: "POST",
+        body: formData,
+        mode: "no-cors" // Required for Mailchimp JSONP
+    })
+    .then(() => {
+        responseMsg.style.display = "block";
+        responseMsg.style.color = "green";
+        responseMsg.textContent = "Subscribed successfully!";
+        document.getElementById("mc-email").value = ""; // Clear input
+    })
+    .catch(() => {
+        responseMsg.style.display = "block";
+        responseMsg.style.color = "red";
+        responseMsg.textContent = "Subscription failed. Try again!";
+    });
+});
+      </script>
     </div>
   </div>
 </section>
