@@ -99,5 +99,8 @@ function generateReferralId(name, email) {
     // Simple example: Combine name and email to create a referral ID
     return `${name.replace(/\s+/g, '_').toLowerCase()}_${email.split('@')[0]}`;
 }</script>
-
+<script type="module">
+     import { app } from './lib/firebase.js'; // Adjust the path as needed
+     console.log('Firebase initialized:', app);
+</script>
 </body></html>
