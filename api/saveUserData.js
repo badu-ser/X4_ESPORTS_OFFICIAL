@@ -37,7 +37,7 @@ export default async function handler(req, res) {
 
             if (result.metadata) {
                 // Return the referral link
-                const referralLink = `https://yourwebsite.com/form.html?ref_id=${referralId}`;
+                const referralLink = `https://x4-esports-official.vercel.app/form.html?ref_id=${referralId}`;
                 return res.status(200).json({ success: true, referralLink });
             } else {
                 throw new Error('Failed to save data to JSONBin.io');
