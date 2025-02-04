@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en"> 
+ <head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>Registration Closed</title> 
+  <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        canvas {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Place the canvas behind other content */
+        }
+
+        .content {
+            position: relative;
+            z-index: 1; /* Ensure content appears above the canvas */
+            color: black;
+            text-align: center;
+            padding: 20px;
+            font-family: courier;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-top: 20%;
+        }
+
+        p {
+            font-size: 1.5rem;
+        }
+    </style> 
+ <style type="text/css" id="dcoder_stylesheet">.logo {
+  align: center;
+  position: fixed;
+  
+}</style></head> 
+ <body> <!-- Canvas for the animated background --> 
+  <canvas id="animatedBackground"></canvas> <!-- Your webpage content --> 
+  <div class="content"> 
+   <h2 color="cyan">Registrations are closed right now</h2> 
+   <br> 
+   <br> 
+   <br> 
+   <br> 
+   <br> 
+   <br> 
+   <br> 
+   <br> 
+   <p>We thank you for the overwhelming response!!</p> 
+   <br>
+   <br>
+   <img id="logo" width="100" height="100" src="https://i.imgur.com/3Z9XZPA.jpeg" alt="logo"> 
+   <br> 
+   <br> 
+   <br> 
+   <br> 
+   <br> 
+   <br> 
+   <br> 
+   <br> 
+   <br> 
+   <br> 
+   <br> 
+   <br> 
+   <br> 
+   <footer> <b>Click <a href="index.html">here</a> for going back home!!</b> 
+   </footer> 
+  </div> 
+  <script>
+        const canvas = document.getElementById('animatedBackground');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particlesArray = [];
+        const numberOfParticles = 150;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 4 - 1;
+                this.speedY = Math.random() * 4 - 1;
+                this.color = `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.8)`;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            init();
+        });
+    </script> 
+ 
+</body></html>
