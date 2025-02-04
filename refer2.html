@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en"> 
+ <head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>Refer and Earn</title> 
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #fed579;
+            position: relative;
+            color: #C7F464; /* Added for positioning the GIF */
+        }
+        .form-container {
+            background: #1A8D5F;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-container h2 {
+            margin-bottom: 20px;
+        }
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #218838;
+        }
+        .referral-link {
+            margin-top: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .copy-button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .copy-button:hover {
+            background-color: #0056b3;
+        }
+        /* Style for the GIF container */
+        .bottom-gif {
+            position: absolute;
+            bottom: 0px; /* Adjust as needed */
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+        .bottom-gif img {
+            max-width: 100%; /* Ensure the GIF is responsive */
+            height: auto;
+            border-radius: 8px; /* Optional: Add rounded corners */
+        }
+    </style> 
+ </head> 
+ <body> 
+  <div class="form-container"> 
+   <h2>Refer and Earn</h2> 
+   <form id="referForm"> 
+    <input type="text" id="name" placeholder="Your Name" required> 
+    <input type="email" id="email" placeholder="Your Email" required> 
+    <input type="text" id="whatsapp" placeholder="Your WhatsApp Number" required> <button type="submit">Get Referral Link</button> 
+   </form> 
+   <div id="referralLink" class="referral-link"></div> 
+  </div> <!-- Add the GIF at the bottom --> 
+  <div class="bottom-gif"> 
+   <img src="https://gallery.mailchimp.com/e72d296ac00c8aefc3885f91f/images/0d15130b-9cfe-4370-8dcb-c4093427e075.gif" alt="Animated GIF"> 
+  </div> 
+  <script>
+    document.getElementById('referForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const whatsapp = document.getElementById('whatsapp').value;
+      
+      // Generate a dummy referral link (replace with actual logic)
+      document.getElementById('referForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const whatsapp = document.getElementById('whatsapp').value;
+
+    // Generate a referral ID (you can use the email or name to create a unique ID)
+    const referralId = generateReferralId(name, email);
+
+    try {
+        // Send data to the serverless function
+        const response = await fetch('/api/saveUserData', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, email, whatsapp, referralId }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            // Display the referral link to the user
+            document.getElementById('referralLink').innerText = `Your Referral Link: ${data.referralLink}`;
+        } else {
+            alert('Failed to generate referral link. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    }
+});
+
+function generateReferralId(name, email) {
+    // Simple example: Combine name and email to create a referral ID
+    return `${name.replace(/\s+/g, '_').toLowerCase()}_${email.split('@')[0]}`;
+}
+      const referralLinkContainer = document.getElementById('referralLink');
+      referralLinkContainer.innerHTML = `
+        <span>${referralLink}</span>
+        <button class="copy-button" onclick="copyToClipboard('${referralLink}')">Copy</button>
+      `;
+    });
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Referral link copied to clipboard!');
+      }).catch(() => {
+        alert('Failed to copy referral link.');
+      });
+    }
+  </script> 
+ </body>
+     </html>
