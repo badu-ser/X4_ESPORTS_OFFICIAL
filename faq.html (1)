@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en"> 
+ <head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>FAQ - X4 eSports </title> 
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: $fff;
+            color: #333;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }  
+        .faq-section {
+            margin-bottom: 30px;
+        }
+        .faq-section h2 {
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .faq-item {
+            margin-bottom: 20px;
+        }
+        .faq-item h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #007BFF;
+        }
+        .faq-item p {
+            margin: 10px 0 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #777;
+        }
+        .canvas {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            }
+    </style> 
+ </head> 
+ <body> 
+  <div class="faq-container"> 
+   <h1>Frequently Asked Questions (FAQ) - X4 eSports </h1> 
+   <p>Welcome to the FAQ page for X4 eSports ! Here, you’ll find answers to the most common questions about our gaming tournaments, registration process, rules, and more. If you don’t find the answer you’re looking for, feel free to contact us directly.</p> <!-- General Questions --> 
+   <div class="faq-section"> 
+    <h2>General Questions</h2> 
+    <div class="faq-item"> 
+     <h3>1. What is X4 eSports ?</h3> 
+     <p>X4 eSports is a platform dedicated to hosting competitive gaming tournaments for players of all skill levels. We offer a variety of games, prize pools, and events to keep the gaming community engaged and entertained.</p> 
+    </div> 
+    <div class="faq-item"> 
+     <h3>2. What games do you host tournaments for?</h3> 
+     <p>We host tournaments for a wide range of popular games, including but not limited to:</p> 
+     <ul> 
+      <li>Free Fire</li> 
+      <li>PUBG</li> 
+      <li>Call of Duty</li> 
+      <li>Ludo</li> 
+     </ul> 
+     <p>Check our <strong>Tournaments</strong> page for the latest schedule and game lineup.</p> 
+    </div> 
+    <div class="faq-item"> 
+     <h3>3. Who can participate in your tournaments?</h3> 
+     <p>Our tournaments are open to players of all skill levels, unless specified otherwise. Some tournaments may have age or region restrictions, so please check the specific tournament rules before registering.</p> 
+    </div> 
+   </div> <!-- Registration & Participation --> 
+   <div class="faq-section"> 
+    <h2>Registration &amp; Participation</h2> 
+    <div class="faq-item"> 
+     <h3>4. How do I register for a tournament?</h3> 
+     <p>1.Open our website!<br> 2. Navigate to the <strong>Tournaments</strong> page.<br> 3. Select the tournament you want to join and click <strong>Register</strong>.<br> 4. Follow the prompts to complete your registration.</p> 
+    </div> 
+    <div class="faq-item"> 
+     <h3>5. Is there a registration fee?</h3> 
+     <p>Most of our tournaments are free to enter, but some premium events may have a small entry fee. This will be clearly stated on the tournament details page.</p> 
+    </div> 
+    <div class="faq-item"> 
+     <h3>6. Can I register as a team?</h3> 
+     <p>Yes, many of our tournaments support team registration. During the registration process, you’ll have the option to create or join a team. Make sure your teammates also register individually before joining the team.</p> 
+    </div> 
+    <div class="faq-item"> 
+     <h3>7. What happens if I miss a tournament after registering?</h3> 
+     <p>If you miss a tournament, you may forfeit your entry. Please check the tournament rules for specific policies on no-shows.</p> 
+    </div> 
+   </div> <!-- Tournament Rules & Format --> 
+   <div class="faq-section"> 
+    <h2>Tournament Rules &amp; Format</h2> 
+    <div class="faq-item"> 
+     <h3>8. What are the rules for your tournaments?</h3> 
+     <p>Each tournament has its own set of rules, which can be found on the tournament details page. Make sure to read and understand the rules before participating.</p> 
+    </div> 
+    <div class="faq-item"> 
+     <h3>9. What is the format of your tournaments?</h3> 
+     <p>Tournament formats vary depending on the game and event. Common formats include:</p> 
+     <ul> 
+      <li> Elimination based</li> 
+      <li>Kill count based</li> 
+      <li>Rank based</li> 
+      <li>Round Based</li> 
+     </ul> 
+     <p>The format will be specified in the tournament details.</p> 
+    </div> 
+    <div class="faq-item"> 
+     <h3>10. Are there any restrictions on equipment or settings?</h3> 
+     <p>Some tournaments may have restrictions on equipment, settings, or mods. These details will be outlined in the tournament rules.</p> 
+    </div> 
+   </div> <!-- Prizes & Rewards --> 
+   <div class="faq-section"> 
+    <h2>Prizes &amp; Rewards</h2> 
+    <div class="faq-item"> 
+     <h3>11. What kind of prizes can I win?</h3> 
+     <p>Prizes vary by tournament and can include cash rewards, gift cards, in-game items, or exclusive merchandise. The prize pool will be clearly listed on the tournament details page.</p> 
+    </div> 
+    <div class="faq-item"> 
+     <h3>12. How do I claim my prize?</h3> 
+     <p>After the tournament ends, winners will be contacted via email or through their [Your Gaming Website Name] account with instructions on how to claim their prize.</p> 
+    </div> 
+    <div class="faq-item"> 
+     <h3>13. Are prizes split among team members?</h3> 
+     <p>For team tournaments, the prize will be split equally among team members unless otherwise stated in the tournament rules.</p> 
+    </div> 
+   </div> <!-- Technical Issues --> 
+   <div class="faq-section"> 
+    <h2>Technical Issues</h2> 
+    <div class="faq-item"> 
+     <h3>14. What should I do if I experience technical issues during a tournament?</h3> 
+     <p>If you encounter technical issues, please contact our support team immediately through the <strong>Help</strong> section of the website. Provide as much detail as possible, including screenshots or error messages.</p> 
+    </div> 
+    <div class="faq-item"> 
+     <h3>15. What happens if the tournament server crashes?</h3> 
+     <p>In the event of a server crash, the tournament may be paused or rescheduled. Updates will be communicated to all participants via email and on the tournament page.</p> 
+    </div> 
+   </div> <!-- Community & Support --> 
+   <div class="faq-section"> 
+    <h2>Community &amp; Support</h2> 
+    <div class="faq-item"> 
+     <h3>16. How can I stay updated on upcoming tournaments?</h3> 
+     <p>Follow us on social media and subscribe to our newsletter to receive updates on upcoming tournaments, events, and announcements.</p> 
+    </div> 
+    <div class="faq-item"> 
+     <h3>17. Can I suggest a game or tournament idea?</h3> 
+     <p>Absolutely! We love hearing from our community. You can submit your suggestions through the <strong>Contact Us</strong> page or our social media channels.</p> 
+    </div> 
+    <div class="faq-item"> 
+     <h3>18. How do I contact support?</h3> 
+     <p>For any questions or issues, you can reach our support team through the <strong>Help</strong> section of the website or by emailing <a href="mailto:support@x4esports.42web.io">support@yourgamingwebsite.com</a>.</p> 
+    </div> 
+   </div> <!-- Account & Security --> 
+   <div class="faq-section"> 
+    <h2>Account &amp; Security</h2> 
+    <div class="faq-item"> 
+     <h3>19. How do I approach admins on payment failure?</h3> 
+     <p>Click on the <strong>Contact Us</strong> link on our and follow the instructions to reach us.</p> 
+    </div> 
+    <div class="faq-item"> 
+     <h3>20. Is my personal information safe?</h3> 
+     <p>Yes, we take your privacy and security seriously. All personal information is protected in accordance with our <strong>Privacy Policy</strong>.</p> 
+    </div> 
+   </div> <!-- Footer --> 
+   <div class="footer"> 
+    <p>Thank you for choosing X4 eSports ! We’re excited to have you as part of our gaming community. Good luck, and may the best player win! 🎮</p> 
+    <p><em>Last Updated: 31-02-2025</em></p> 
+    <p>For additional questions, please visit our <strong>Contact Us</strong> page.</p> 
+   </div> 
+  </div> 
+ 
+</body></html>
