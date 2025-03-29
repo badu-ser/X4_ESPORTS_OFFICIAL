@@ -1,10 +1,9 @@
 {
   "routes": [
-    { "handle": "filesystem" },
     {
-      "src": "/(.*)",
-      "dest": "/503.html",
-      "status": 503
+      "src": "/form.html",  
+      "dest": "/maintenance.html",    
+      "status": 503                   
     }
   ]
 }
