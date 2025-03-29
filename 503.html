@@ -43,16 +43,6 @@
         <p>Features that may be affected: Tournament registration will not be available.</p>
         <p>We'll be back on or before <strong>2:00 AM</strong>.</p>
         <p>Thank you for your patience.</p>
-        <audio autoplay>
-            <source src="assets/audio/song.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
     </div>
-    <script>
-    window.addEventListener("DOMContentLoaded", () => {
-        let audio = new Audio("assets/audio/song.mp3");
-        audio.play().catch(error => console.log("Autoplay blocked:", error));
-    });
-    </script>
 </body>
 </html>
