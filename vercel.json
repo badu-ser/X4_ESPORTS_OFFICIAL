@@ -1,8 +1,6 @@
 {
   "routes": [
-    // Serve static assets
     { "handle": "filesystem" },
-    // Redirect everything else to maintenance
     {
       "src": "/(.*)",
       "dest": "/503.html",
