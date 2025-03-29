@@ -179,7 +179,7 @@
 <div class="mb-3" id="upiSection" style="display: none;">
   <label>UPI Payment</label>
   <div class="alert alert-info">
-    Send <span id="paymentAmount">0</span> to <strong>your-upi-id@okbank</strong>
+    Send <span id="paymentAmount">0</span> to <strong>x4esports@nsdl</strong>
     <button class="btn btn-sm btn-primary ml-2" type="button" onclick="copyUPI()">Copy UPI ID</button>
   </div>
   <small class="form-text text-muted">
@@ -366,7 +366,7 @@
 
         if (result.success) {
           alert('Registration successful!');
-          window.location.reload(); // Refresh form after successful submission
+          window.location.href = 'index.html'; // Redirect to defined link after successful submission
         } else {
           alert('Registration failed. Please try again.');
         }
