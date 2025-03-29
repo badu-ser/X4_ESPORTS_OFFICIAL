@@ -443,5 +443,17 @@ function copyUPI() {
   }
 });
     </script>
+    <script>document.getElementById('number').addEventListener('input', function () {
+  let numberInput = this;
+  let numberPattern = /^[6-9]\d{9}$/; // Ensures the number starts with 6-9 and is 10 digits long
+
+  if (numberPattern.test(numberInput.value)) {
+    numberInput.classList.remove('is-invalid');
+    numberInput.classList.add('is-valid');
+  } else {
+    numberInput.classList.remove('is-valid');
+    numberInput.classList.add('is-invalid');
+  }
+});</script>
   </body>
   </html>
