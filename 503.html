@@ -48,5 +48,11 @@
             Your browser does not support the audio element.
         </audio>
     </div>
+    <script>
+    window.addEventListener("DOMContentLoaded", () => {
+        let audio = new Audio("assets/audio/song.mp3");
+        audio.play().catch(error => console.log("Autoplay blocked:", error));
+    });
+    </script>
 </body>
 </html>
