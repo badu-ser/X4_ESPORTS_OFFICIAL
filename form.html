@@ -429,5 +429,19 @@ function copyUPI() {
         margin: 0; /* Removes default margin */
     }
 </style>
+    <script>
+    document.getElementById('email').addEventListener('input', function () {
+  let emailInput = this;
+  let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  if (emailPattern.test(emailInput.value)) {
+    emailInput.classList.remove('is-invalid');
+    emailInput.classList.add('is-valid');
+  } else {
+    emailInput.classList.remove('is-valid');
+    emailInput.classList.add('is-invalid');
+  }
+});
+    </script>
   </body>
   </html>
