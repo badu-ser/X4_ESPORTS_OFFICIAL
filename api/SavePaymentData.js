@@ -16,9 +16,9 @@ export default async function handler(req, res) {
     return res.status(405).json({ success: false, message: 'Method not allowed' });
   }
 
-  const { amount, upiId } = req.body;
+  const { amount, upiId, email } = req.body;
 
-  if (!amount || !upiId) {
+  if (!amount || !upiId || !email) {
     return res.status(400).json({ success: false, message: 'Missing required fields' });
   }
 
@@ -42,6 +42,7 @@ export default async function handler(req, res) {
       {
         amount,
         upiId,
+        email,
         timestamp: new Date().toISOString()
       }
     ];
