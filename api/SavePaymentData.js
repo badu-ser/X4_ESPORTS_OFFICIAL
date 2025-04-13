@@ -26,6 +26,7 @@ export default async function handler(req, res) {
     const binId = '67fa64a08960c979a58396de';
     const apiKey = '$2a$10$jB57pOyAbeCEdv6ovXThfO3MVUw88TvzC9EsUj6.XsZyRIewLpiUS';
 
+    // Get existing data
     const getResponse = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
       headers: { 'X-Master-Key': apiKey }
     });
@@ -37,6 +38,22 @@ export default async function handler(req, res) {
     const jsonResponse = await getResponse.json();
     const existingData = Array.isArray(jsonResponse.record) ? jsonResponse.record : [];
 
+    // Check cooldown for the user's email
+    const lastRequest = existingData
+      .filter(entry => entry.email === email)
+      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
+
+    if (lastRequest) {
+      const hoursSinceLast = (Date.now() - new Date(lastRequest.timestamp).getTime()) / (1000 * 60 * 60);
+      if (hoursSinceLast < 24) {
+        return res.status(429).json({
+          success: false,
+          message: `Cooldown active. Try again in ${Math.ceil(24 - hoursSinceLast)} hours.`
+        });
+      }
+    }
+
+    // Save new payout request
     const newData = [
       ...existingData,
       {
