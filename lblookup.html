@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en"> 
+ <head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>X4 eSports Tournament Search</title> 
+  <style>
+    :root {
+      --bg-color: #1a1a1a;
+      --text-color: #fff;
+      --card-bg: #2d2d2d;
+      --accent: #FF8C00;
+    }
+
+    [data-theme="light"] {
+      --bg-color: #f5f5f5;
+      --text-color: #333;
+      --card-bg: #fff;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 20px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 15px;
+      margin-top: 60px;
+    }
+
+    h1 {
+      color: var(--accent);
+    }
+
+    .search-box {
+      background: var(--card-bg);
+      padding: 25px;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    input[type="text"] {
+      padding: 12px 20px;
+      width: 200px;
+      border-radius: 25px;
+      border: none;
+      background: #333;
+      color: white;
+      font-size: 16px;
+      align: center;
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 12px 25px;
+      background: var(--accent);
+      color: black;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+      margin-left: 10px;
+    }
+
+    .recent-tournaments {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .tournament-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .tournament-list li {
+      padding: 10px;
+      border-bottom: 1px solid #444;
+      cursor: pointer;
+    }
+
+    .tournament-list li:hover {
+      background: #333;
+    }
+
+    .error-message {
+      color: #f44336;
+      text-align: center;
+      margin-top: 20px;
+      display: none;
+    }
+
+    .utility-buttons {
+      position: fixed;
+      top: 10px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .theme-toggle, .share-button {
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      background: var(--card-bg);
+      border: none;
+      width: 40px;
+      height: 40px;
+    }
+
+    #searchFilter {
+      margin-bottom: 15px;
+      width: 100%;
+      max-width: 200px;
+    }
+    
+    .x4-logo {
+  
+  top: 10px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+}
+
+.x4-logo img {
+  height: 50px; /* Or adjust based on your layout */
+  width: auto;
+  object-fit: contain;
+}
+  </style> 
+ <style type="text/css" id="dcoder_stylesheet">.site-footer {
+    background: #2d2d2d;
+    color: #fff;
+    padding: 30px 20px;
+    margin-top: 40px;
+  }
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-links a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 25px;
+    font-size: 0.9em;
+    transition: color 0.3s ease;
+  }
+
+  .footer-links a:hover {
+    color: #FF8C00;
+  }
+
+  .copyright {
+    font-size: 0.9em;
+    opacity: 0.8;
+  }</style></head> 
+ <body> 
+  <div class="x4-logo">
+   <img src="https://files.catbox.moe/q9dldh.jpeg" alt="logo"> 
+  </div> 
+  <div class="utility-buttons"> <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"> <span role="img" aria-hidden="true">🌓</span> </button> <button class="share-button" onclick="sharePage()" aria-label="Share page"> <span role="img" aria-hidden="true">📤</span> </button> 
+  </div> 
+  <div class="container"> 
+   <div class="header"> 
+    <h1>X4 eSports Tournament Lookup</h1> 
+    <p>Enter tournament code to view leaderboard</p> 
+   </div> 
+   <div class="search-box"> <label for="tournamentCode" style="display:none;">Tournament Code</label> 
+    <input type="text" id="tournamentCode" placeholder="e.g. TR-001, TR-002F"> <button onclick="loadLeaderboard()">Search</button> 
+    <p class="error-message" id="errorMessage">Tournament not found!</p> 
+   </div> 
+   <div class="recent-tournaments"> 
+    <h3>Recent Tournaments</h3> <label for="searchFilter" style="display:none;">Filter Tournaments</label> 
+    <input type="text" id="searchFilter" placeholder="Filter tournaments..." onkeyup="filterTournaments()"> 
+    <ul class="tournament-list" id="tournamentList"> 
+     <li onclick="fillCode('TR-001')">TR-001 - Free Fire Squad Showdown</li> 
+     <li onclick="fillCode('TR-002F')">TR-002F - Free Fire Mayhem</li> 
+     <li onclick="fillCode('TR-003')">TR-003 - Pro Scrims</li> 
+    </ul> 
+   </div> 
+  </div> 
+  <script>
+    // Set saved or default theme
+    (function () {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.body.setAttribute('data-theme', savedTheme);
+    })();
+
+    // Theme Toggle
+    function toggleTheme() {
+      const body = document.body;
+      const newTheme = body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      body.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    }
+
+    // Share Button
+    async function sharePage() {
+      try {
+        await navigator.share({
+          title: 'X4 eSports Tournament Results',
+          url: window.location.href
+        });
+      } catch (err) {
+        console.log('Share this page: ' + window.location.href);
+      }
+    }
+
+    // Filter Tournament List
+    function filterTournaments() {
+      const input = document.getElementById('searchFilter');
+      const filter = input.value.toUpperCase();
+      const list = document.getElementById('tournamentList');
+      const items = list.getElementsByTagName('li');
+
+      for (let item of items) {
+        const text = item.textContent || item.innerText;
+        item.style.display = text.toUpperCase().includes(filter) ? '' : 'none';
+      }
+    }
+
+    // Tournament files
+    const tournamentFiles = {
+      "TR-001": "leaderboard-tr001.html",
+      "TR-002F": "leaderboard-tr002f.html",
+      "TR-003": "leaderboard-tr003.html"
+    };
+
+    // Load leaderboard
+    function loadLeaderboard() {
+      const code = document.getElementById('tournamentCode').value.trim().toUpperCase();
+      const errorElement = document.getElementById('errorMessage');
+      
+      if (tournamentFiles[code]) {
+        errorElement.style.display = 'none';
+        window.location.href = tournamentFiles[code];
+      } else {
+        errorElement.style.display = 'block';
+      }
+    }
+
+    // Autofill on click
+    function fillCode(code) {
+      document.getElementById('tournamentCode').value = code;
+      document.getElementById('errorMessage').style.display = 'none';
+    }
+
+    // Enter key triggers search
+    document.getElementById('tournamentCode').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') loadLeaderboard();
+    });
+  </script> 
+  <footer class="site-footer"> 
+   <div class="footer-content"> 
+    <div class="copyright">
+      © X4 eSports India 2025 
+    </div> 
+    <div class="footer-links"> <a href="#">Privacy Policy</a> <a href="#">Terms of Service</a> <a href="#">Contact Support</a> 
+    </div> 
+   </div> 
+  </footer> 
+ 
+</body></html>
