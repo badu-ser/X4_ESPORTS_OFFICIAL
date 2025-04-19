@@ -766,6 +766,288 @@ document.getElementById("mc-form").addEventListener("submit", function(event) {
     </div>
   </div>
 </section>
+        <div>
+           <link rel="stylesheet" href="style.css"> 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+  <div class="container"> 
+   <h1>Total gamers visited till today</h1> 
+   <div class="counter" id="counter">
+     Loading... 
+   </div> 
+   <canvas id="visitChart"></canvas> 
+  </div> 
+  <div id="milestone"></div> 
+  <script>let soundEnabled = false;
+
+document.addEventListener('click', () => {
+  soundEnabled = true;
+});
+const backendURL = 'https://wallet-app-zde6.onrender.com';
+const OFFSET = 1292;
+
+let previousCount = 0;
+const milestoneDisplay = document.getElementById('milestone');
+
+// Animate number counter
+function animateCounter(from, to) {
+  const duration = 1000;
+  const stepCount = Math.min(Math.abs(to - from), 100); // Limit steps for smoother animation
+  if (stepCount === 0) return;
+
+  const increment = (to - from) / stepCount;
+  const stepTime = duration / stepCount;
+  let current = from;
+  const counterElement = document.getElementById('counter');
+
+  const interval = setInterval(() => {
+    current += increment;
+    const shown = Math.round(current);
+    counterElement.textContent = shown.toString().padStart(5, '0');
+    if ((increment > 0 && current >= to) || (increment < 0 && current <= to)) {
+      counterElement.textContent = to.toString().padStart(5, '0');
+      clearInterval(interval);
+      showNextMilestone(to);
+    }
+  }, stepTime);
+}
+
+function showNextMilestone(current) {
+  const staticMilestones = [10, 50, 100, 1000, 2000];
+  const dynamicStart = 3000;
+  let milestones = [...staticMilestones];
+  for (let i = dynamicStart; i <= current + 5000; i += 1000) {
+    milestones.push(i);
+  }
+  milestones = milestones.filter(m => m > current);
+  const next = milestones[0];
+  milestoneDisplay.textContent = `Next milestone at ${next.toString().padStart(5, '0')}!`;
+}
+
+// Fireworks at milestones
+function triggerFireworks() {
+  const fireworks = document.createElement('div');
+  fireworks.classList.add('fireworks');
+  document.body.appendChild(fireworks);
+  setTimeout(() => fireworks.remove(), 1500);
+}
+
+// Confetti particles
+function spawnParticles() {
+  const particleCount = 30;
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = `${Math.random() * 100}%`;
+    particle.style.background = `hsl(${Math.random() * 360}, 100%, 60%)`;
+    document.body.appendChild(particle);
+
+    setTimeout(() => particle.remove(), 1000);
+  }
+}
+
+// Sound
+function playSound(milestone = false) {
+  if (!soundEnabled) return;
+
+  const url = milestone
+    ? 'https://www.soundjay.com/button/beep-07.wav'
+    : 'https://www.soundjay.com/human/applause-8.mp3';
+  const audio = new Audio(url);
+  audio.play();
+}
+
+function checkMilestones(count) {
+  const staticMilestones = [10, 50, 100, 1000, 2000];
+  const isStatic = staticMilestones.includes(count);
+  const isDynamic = count >= 3000 && count % 1000 === 0;
+  const milestone = isStatic || isDynamic;
+
+  playSound(milestone);
+  spawnParticles();
+  if (milestone) triggerFireworks();
+}
+
+async function trackVisit() {
+  try {
+    await fetch(`${backendURL}/api/visits/track`, { method: 'POST' });
+  } catch (err) {
+    console.error('Visit tracking failed:', err);
+  }
+}
+
+async function loadStats() {
+  try {
+    const res = await fetch(`${backendURL}/api/visits/history`);
+    const data = await res.json();
+
+    const backendTotal = data.total;
+    const adjustedTotal = backendTotal + OFFSET;
+
+    animateCounter(previousCount, adjustedTotal);
+    checkMilestones(adjustedTotal);
+    previousCount = adjustedTotal;
+
+    // Animate the chart
+    const ctx = document.getElementById('visitChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: data.history.map(d => d.date),
+        datasets: [{
+          label: 'Visits per day',
+          data: data.history.map(d => d.count),
+          backgroundColor: 'rgba(255, 165, 0, 0.2)',
+          borderColor: 'orange',
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: 'orange',
+        }]
+      },
+      options: {
+        animation: {
+          duration: 2000,
+          easing: 'easeOutBounce',
+        },
+        responsive: true,
+        plugins: {
+          legend: {
+            labels: {
+              color: 'orange'
+            }
+          }
+        },
+        scales: {
+          x: {
+            ticks: {
+              color: 'orange'
+            }
+          },
+          y: {
+            beginAtZero: true,
+            ticks: {
+              color: 'orange'
+            }
+          }
+        }
+      }
+    });
+
+  } catch (err) {
+    console.error('Loading stats failed:', err);
+  }
+}
+
+// Run on load
+trackVisit();
+loadStats();</script> 
+ <style>@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+
+body {
+  margin: 0;
+  background-color: #111;
+  font-family: 'Orbitron', sans-serif;
+  color: orange;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.container {
+  text-align: center;
+  max-width: 700px;
+  width: 100%;
+  padding: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.counter {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  border: 2px solid orange;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #222;
+  box-shadow: 0 0 10px orange;
+}
+
+canvas {
+  background-color: #222;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 0 8px #ff9900;
+}
+
+@keyframes fireworks {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.7; }
+  100% { transform: scale(0); opacity: 0; }
+}
+
+.fireworks {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, orange, red);
+  border-radius: 50%;
+  animation: fireworks 1.5s ease-out forwards;
+  box-shadow: 0 0 50px orange, 0 0 50px red, 0 0 100px yellow;
+  pointer-events: none;
+}
+
+#milestone {
+  color: orange;
+  font-size: 1.2em;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.fireworks {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, orange, black);
+  border-radius: 50%;
+  opacity: 0.7;
+  z-index: 999;
+  animation: pulse 0.5s ease-out alternate infinite;
+}
+
+@keyframes pulse {
+  0% { transform: translateX(-50%) scale(1); }
+  100% { transform: translateX(-50%) scale(1.2); }
+}
+
+.particle {
+  position: fixed;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  animation: rise 1s ease-out forwards;
+  z-index: 1000;
+}
+
+@keyframes rise {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-200px); opacity: 0; }
+}
+
+
+    </style>
+
+          
+        </div>
         <!-- Elfsight Visitor Counter | Untitled Visitor Counter -->
 <script src="https://static.elfsight.com/platform/platform.js" async></script>
 <div class="elfsight-app-2a0f2219-d8a1-4b4e-b991-f54526ae8160" data-elfsight-app-lazy></div>
