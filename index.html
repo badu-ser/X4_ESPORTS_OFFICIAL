@@ -18,7 +18,8 @@
     });
   });
 </script>
-  
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- 
     - favicon link
   -->
@@ -766,107 +767,157 @@ document.getElementById("mc-form").addEventListener("submit", function(event) {
     </div>
   </div>
 </section>
-        <div>
-           <link rel="stylesheet" href="style.css"> 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
-  <div class="container"> 
-   <h1>Total gamers visited till today</h1> 
-   <div class="counter" id="counter">
-     Loading... 
-   </div> 
-   <canvas id="visitChart"></canvas> 
-  </div> 
-  <div id="milestone"></div> 
-  <script>let soundEnabled = false;
+        <!-- Game Metrics Widget -->
+<div class="gm-container"> 
+   <h1 class="gm-title">Total gamers visited till today</h1> 
+   <div class="gm-counter" id="gm-counter">Loading...</div> 
+   <canvas id="gm-visitChart" class="gm-chart"></canvas> 
+   <div id="gm-milestone" class="gm-milestone"></div> 
+</div>
 
-document.addEventListener('click', () => {
-  soundEnabled = true;
-});
+<style>
+.gm-container {
+  text-align: center;
+  max-width: 700px;
+  width: 100%;
+  padding: 2rem;
+  margin: 0 auto;
+  font-family: 'Orbitron', sans-serif;
+  color: orange;
+}
+
+.gm-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 8px rgba(255,165,0,0.5);
+}
+
+.gm-counter {
+  font-size: 3rem;
+  margin: 2rem 0;
+  border: 2px solid orange;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #222;
+  box-shadow: 0 0 10px orange;
+  font-variant-numeric: tabular-nums;
+}
+
+.gm-chart {
+  background-color: #222;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+  box-shadow: 0 0 8px #ff9900;
+}
+
+.gm-milestone {
+  font-size: 1.2em;
+  margin-top: 10px;
+  padding: 0.5rem;
+  text-shadow: 0 0 5px orange;
+}
+
+.gm-fireworks {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, orange, red);
+  border-radius: 50%;
+  animation: gm-fireworks 1.5s ease-out forwards;
+  box-shadow: 0 0 50px orange;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.gm-particle {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  animation: gm-rise 1s ease-out forwards;
+  z-index: 1000;
+}
+
+@keyframes gm-fireworks {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+@keyframes gm-rise {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-200px); opacity: 0; }
+}
+
+@keyframes gm-pulse {
+  0% { transform: translateX(-50%) scale(1); }
+  100% { transform: translateX(-50%) scale(1.2); }
+}
+</style>
+
+<script>
+// Configuration
 const backendURL = 'https://wallet-app-zde6.onrender.com';
 const OFFSET = 1292;
-
+let soundEnabled = false;
 let previousCount = 0;
-const milestoneDisplay = document.getElementById('milestone');
 
-// Animate number counter
+// Elements
+const gmCounter = document.getElementById('gm-counter');
+const gmMilestone = document.getElementById('gm-milestone');
+const gmChart = document.getElementById('gm-visitChart');
+
+// Counter animation
 function animateCounter(from, to) {
   const duration = 1000;
-  const stepCount = Math.min(Math.abs(to - from), 100); // Limit steps for smoother animation
+  const stepCount = Math.min(Math.abs(to - from), 100);
   if (stepCount === 0) return;
 
   const increment = (to - from) / stepCount;
   const stepTime = duration / stepCount;
   let current = from;
-  const counterElement = document.getElementById('counter');
 
   const interval = setInterval(() => {
     current += increment;
     const shown = Math.round(current);
-    counterElement.textContent = shown.toString().padStart(5, '0');
+    gmCounter.textContent = shown.toString().padStart(5, '0');
     if ((increment > 0 && current >= to) || (increment < 0 && current <= to)) {
-      counterElement.textContent = to.toString().padStart(5, '0');
+      gmCounter.textContent = to.toString().padStart(5, '0');
       clearInterval(interval);
       showNextMilestone(to);
     }
   }, stepTime);
 }
 
+// Milestone handling
 function showNextMilestone(current) {
-  const staticMilestones = [10, 50, 100, 1000, 2000];
-  const dynamicStart = 3000;
-  let milestones = [...staticMilestones];
-  for (let i = dynamicStart; i <= current + 5000; i += 1000) {
-    milestones.push(i);
-  }
-  milestones = milestones.filter(m => m > current);
-  const next = milestones[0];
-  milestoneDisplay.textContent = `Next milestone at ${next.toString().padStart(5, '0')}!`;
+  const milestones = [10, 50, 100, 1000, 2000, 3000, 4000, 5000];
+  const next = milestones.find(m => m > current) || '∞';
+  gmMilestone.textContent = `Next milestone: ${next.toString().padStart(5, '0')}!`;
 }
 
-// Fireworks at milestones
-function triggerFireworks() {
+// Visual effects
+function createFireworks() {
   const fireworks = document.createElement('div');
-  fireworks.classList.add('fireworks');
+  fireworks.className = 'gm-fireworks';
   document.body.appendChild(fireworks);
   setTimeout(() => fireworks.remove(), 1500);
 }
 
-// Confetti particles
-function spawnParticles() {
-  const particleCount = 30;
-  for (let i = 0; i < particleCount; i++) {
+function createParticles() {
+  for (let i = 0; i < 30; i++) {
     const particle = document.createElement('div');
-    particle.className = 'particle';
+    particle.className = 'gm-particle';
     particle.style.left = `${Math.random() * 100}%`;
     particle.style.background = `hsl(${Math.random() * 360}, 100%, 60%)`;
     document.body.appendChild(particle);
-
     setTimeout(() => particle.remove(), 1000);
   }
 }
 
-// Sound
-function playSound(milestone = false) {
-  if (!soundEnabled) return;
-
-  const url = milestone
-    ? 'https://www.soundjay.com/button/beep-07.wav'
-    : 'https://www.soundjay.com/human/applause-8.mp3';
-  const audio = new Audio(url);
-  audio.play();
-}
-
-function checkMilestones(count) {
-  const staticMilestones = [10, 50, 100, 1000, 2000];
-  const isStatic = staticMilestones.includes(count);
-  const isDynamic = count >= 3000 && count % 1000 === 0;
-  const milestone = isStatic || isDynamic;
-
-  playSound(milestone);
-  spawnParticles();
-  if (milestone) triggerFireworks();
-}
-
+// Data handling
 async function trackVisit() {
   try {
     await fetch(`${backendURL}/api/visits/track`, { method: 'POST' });
@@ -879,17 +930,13 @@ async function loadStats() {
   try {
     const res = await fetch(`${backendURL}/api/visits/history`);
     const data = await res.json();
+    const total = data.total + OFFSET;
 
-    const backendTotal = data.total;
-    const adjustedTotal = backendTotal + OFFSET;
+    animateCounter(previousCount, total);
+    previousCount = total;
 
-    animateCounter(previousCount, adjustedTotal);
-    checkMilestones(adjustedTotal);
-    previousCount = adjustedTotal;
-
-    // Animate the chart
-    const ctx = document.getElementById('visitChart').getContext('2d');
-    new Chart(ctx, {
+    // Initialize chart
+    new Chart(gmChart, {
       type: 'line',
       data: {
         labels: data.history.map(d => d.date),
@@ -898,36 +945,17 @@ async function loadStats() {
           data: data.history.map(d => d.count),
           backgroundColor: 'rgba(255, 165, 0, 0.2)',
           borderColor: 'orange',
-          fill: true,
-          tension: 0.4,
-          pointBackgroundColor: 'orange',
+          tension: 0.4
         }]
       },
       options: {
-        animation: {
-          duration: 2000,
-          easing: 'easeOutBounce',
-        },
         responsive: true,
         plugins: {
-          legend: {
-            labels: {
-              color: 'orange'
-            }
-          }
+          legend: { labels: { color: 'orange' } }
         },
         scales: {
-          x: {
-            ticks: {
-              color: 'orange'
-            }
-          },
-          y: {
-            beginAtZero: true,
-            ticks: {
-              color: 'orange'
-            }
-          }
+          x: { ticks: { color: 'orange' } },
+          y: { ticks: { color: 'orange' } }
         }
       }
     });
@@ -937,15 +965,14 @@ async function loadStats() {
   }
 }
 
-// Run on load
+// Initialize
+document.addEventListener('click', () => soundEnabled = true);
 trackVisit();
-loadStats();</script> 
- <style>
+loadStats();
+</script>
 
-    </style>
 
-          
-        </div>
+
         <!-- Elfsight Visitor Counter | Untitled Visitor Counter -->
 <script src="https://static.elfsight.com/platform/platform.js" async></script>
 <div class="elfsight-app-2a0f2219-d8a1-4b4e-b991-f54526ae8160" data-elfsight-app-lazy></div>
